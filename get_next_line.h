@@ -6,7 +6,7 @@
 /*   By: ataher <ataher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 09:06:26 by ataher            #+#    #+#             */
-/*   Updated: 2024/09/14 11:04:38 by ataher           ###   ########.fr       */
+/*   Updated: 2024/09/14 12:16:39 by ataher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# define BUFFER_SIZE 30
 
 char	*get_next_line(int fd);
 
