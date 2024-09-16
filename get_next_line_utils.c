@@ -6,114 +6,67 @@
 /*   By: ataher <ataher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 09:06:28 by ataher            #+#    #+#             */
-/*   Updated: 2024/09/14 17:00:57 by ataher           ###   ########.fr       */
+/*   Updated: 2024/09/16 07:36:57 by ataher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdlib.h>
+#include <string.h>
 
-size_t	ft_strlen(char const *s)
-{
-	int	i;
+// Function to create a new buffer node
+static t_buffer *create_buffer(const char *content) {
+    t_buffer *new_node = (t_buffer *)malloc(sizeof(t_buffer));
+    if (!new_node) return NULL; // Check for memory allocation failure
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+    // Allocate and copy the content
+    new_node->content = strdup(content);
+    if (!new_node->content) {
+        free(new_node); // Free the node if content allocation fails
+        return NULL;
+    }
+
+    // Initialize the next pointer
+    new_node->next = NULL;
+
+    return new_node;
 }
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-	size_t	src_len;
+void append_buffer(t_buffer **head, const char *content) {
+    t_buffer *new_node = create_buffer(content);
+    if (!new_node) return; // Check for memory allocation failure
 
-	src_len = ft_strlen(src);
-	i = 0;
-	if (size == 0)
-		return (src_len);
-	while (src[i] && i < size - 1)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (src_len);
+    if (*head == NULL) {
+        // If the list is empty, make the new node the head
+        *head = new_node;
+    } else {
+        // Otherwise, traverse to the end of the list
+        t_buffer *current = *head;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = new_node;
+    }
 }
 
-static	int	ft_wordcount(char const *s, char delimiter)
-{
-	int	i;
-	int	words;
-
-	i = 0;
-	words = 0;
-	while (s[i])
-	{
-		if (s[i] != delimiter && (s[i + 1] == delimiter || !s[i + 1]))
-			words++;
-		i++;
-	}
-	return (words);
+void print_buffers(const t_buffer *head) {
+    const t_buffer *current = head;
+    while (current != NULL) {
+        printf("%s\n", current->content);
+        current = current->next;
+    }
 }
 
-static	int	ft_strlen_till_delimiter(char const *s, char delimiter)
-{
-	int	i;
+void free_buffers(t_buffer *head) {
+    t_buffer *current = head;
+    t_buffer *next;
 
-	i = 0;
-	while (s[i] && s[i] != delimiter)
-		i++;
-	return (i);
+    while (current != NULL) {
+        next = current->next; // Save the next node
+        free(current->content); // Free the content
+        free(current); // Free the node
+        current = next; // Move to the next node
+    }
 }
 
-void	free_result(char **result, int wordcount)
-{
-	int	i;
 
-	i = 0;
-	while (i <= wordcount)
-	{
-		free(result[i]);
-		result[i] = NULL;
-		i++;
-	}
-	free(result);
-	result = NULL;
-}
-
-char	**set_strings(char **result, int wordcount, char const *s, char c)
-{
-	int		wordlen;
-	int		word;
-
-	word = 0;
-	while (word < wordcount)
-	{
-		while (*s == c)
-			s++;
-		wordlen = ft_strlen_till_delimiter(s, c);
-		result[word] = malloc(sizeof(char) * (wordlen + 1));
-		if (!result[word])
-		{
-			free_result(result, word);
-			return (NULL);
-		}
-		ft_strlcpy(result[word], s, wordlen + 1);
-		s += wordlen;
-		word++;
-	}
-	result[word] = NULL;
-	return (result);
-}
-
-char	**ft_split(char const *s, char c)
-{
-	int		wordcount;
-	char	**result;
-
-	wordcount = ft_wordcount(s, c);
-	result = malloc(sizeof(char *) * (wordcount + 1));
-	if (!result)
-		return (NULL);
-	return (set_strings(result, wordcount, s, c));
-}
