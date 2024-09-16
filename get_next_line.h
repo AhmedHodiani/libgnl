@@ -6,21 +6,22 @@
 /*   By: ataher <ataher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 09:06:26 by ataher            #+#    #+#             */
-/*   Updated: 2024/09/16 08:26:16 by ataher           ###   ########.fr       */
+/*   Updated: 2024/09/16 15:12:56 by ataher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-#include <unistd.h>
+# include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# define BUFFER_SIZE 5
+# define BUFFER_SIZE 4
 
 char	*get_next_line(int fd);
 char	**ft_split(char const *s, char c);
+size_t	ft_strchr(const char *s, char c);
 
 typedef struct s_buffer
 {
@@ -28,7 +29,7 @@ typedef struct s_buffer
 	struct s_buffer	*next;
 }	t_buffer;
 
-void append_buffer(t_buffer **head, const char *content);
+size_t append_buffer(t_buffer **head, const char *content);
 void print_buffers(const t_buffer *head);
 void free_buffers(t_buffer *head);
 

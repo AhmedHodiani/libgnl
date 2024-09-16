@@ -6,7 +6,7 @@
 /*   By: ataher <ataher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 09:06:21 by ataher            #+#    #+#             */
-/*   Updated: 2024/09/16 08:34:17 by ataher           ###   ########.fr       */
+/*   Updated: 2024/09/16 14:21:33 by ataher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_concat_buffers(t_buffer *buffer_list, size_t line_len)
 
 	line = malloc(sizeof(char) * (line_len + 1));
 
-	int line_index = 0;
+	size_t line_index = 0;
     while (temp != NULL) {
 		int i = 0;
 		while (temp->content[i] && (line_index + i) < line_len)
@@ -54,65 +54,103 @@ char	*ft_concat_buffers(t_buffer *buffer_list, size_t line_len)
 char	*get_next_line(int fd)
 {
 	static char		temp_line[BUFFER_SIZE];
+	static size_t	start_index;
+
 	t_buffer 		*buffer_list;
-	size_t			line_len;
 	size_t			newline_index;
-	int				read_output;
+	size_t			line_len;
+	ssize_t			read_output;
+
+
+	if (!temp_line[0])
+	{
+		read_output = read(fd, temp_line, BUFFER_SIZE);
+		if (read_output <= 0)
+			return NULL;
+		start_index = 0;
+	}
+	else
+		start_index += ft_strchr(temp_line + start_index, '\n') + 1;
+
+	// printf("start_index: %lu\n", start_index);
+	// printf("temp: %s%%\n", temp_line + start_index);
+	// if (temp_line[start_index] == '\n')
+	// {
+	// 	return NULL;
+	// }
 
 	line_len = 0;
 	buffer_list = NULL;
-	if (temp_line[0]) // if temp_line is not empty
-	{
-		newline_index = ft_strchr(temp_line, '\n');
-		printf("add to buffer: %s%%\n", temp_line + newline_index + 1);
-		append_buffer(&buffer_list, (temp_line + newline_index + 1));
-		line_len = BUFFER_SIZE - (newline_index + 1);
-	}
 	while (1)
 	{
-		if ((read_output = read(fd, temp_line, BUFFER_SIZE)) < 0)
-			return NULL;
-		// printf("read_output: %d%% --> temp: %s%%\n", read_output, temp_line);
-		// if (read_output == 0)
-		// {
-			// printf("buffers:\n");
-			// print_buffers(buffer_list);
-		// 	break;
-		// }
-		append_buffer(&buffer_list, temp_line);
-		newline_index = ft_strchr(temp_line, '\n');
+		append_buffer(&buffer_list, temp_line + start_index);
+		newline_index = ft_strchr(temp_line + start_index, '\n');
 		line_len += newline_index;
+
 		if (newline_index != BUFFER_SIZE)
 			break;
+
+		read_output = read(fd, temp_line, BUFFER_SIZE);
+		start_index = 0;
+
+		if (read_output <= 0)
+			return NULL;
 	}
-	print_buffers(buffer_list);
+	// print_buffers(buffer_list);
+	// printf("##line_len: %lu\n", line_len);
 	return (ft_concat_buffers(buffer_list, line_len));
+	// return "asdf";
 }
 
 
-int main()
-{
-	int fd = open("out.txt", O_RDONLY);
-	printf("line: %s%%\n", get_next_line(fd));
-	printf("---\n");
-	printf("line: %s%%\n", get_next_line(fd));
-	printf("---\n");
-	printf("line: %s%%\n", get_next_line(fd));
-	printf("---\n");
-	printf("line: %s%%\n", get_next_line(fd));
-	printf("---\n");
-	printf("line: %s%%\n", get_next_line(fd));
-	printf("---\n");
-	// get_next_line(fd);
-	// get_next_line(fd);
-	// get_next_line(fd);
-	// get_next_line(fd);
-	// get_next_line(fd);
-	// get_next_line(fd);
-	// get_next_line(fd);
-	// get_next_line(fd);
-	// printf("%s\n", get_next_line(fd));
-	// printf("%s\n", get_next_line(fd));
-	// printf("%s\n", get_next_line(fd));
-	// printf("%s\n", get_next_line(fd));
-}
+// int main()
+// {
+// 	int fd = open("out.txt", O_RDONLY);
+
+// 	get_next_line(fd); // "12315345\n"
+// 	get_next_line(fd); // "134513451345345\n"
+
+// 	char mystring[10];
+
+// 	read(fd, mystring, 1); // "1"
+// 	read(fd, mystring, 1); // "2"
+
+// 	printf("##line: %s%%\n\n", get_next_line(fd));
+// 	printf("##line: %s%%\n\n", get_next_line(fd));
+// 	// printf("---\n");
+// 	printf("##line: %s%%\n\n", get_next_line(fd));
+// 	printf("##line: %s%%\n\n", get_next_line(fd));
+// 	// printf("##line: %s%%\n\n", get_next_line(fd));
+// 	// printf("##line: %s%%\n\n", get_next_line(fd));
+// 	// printf("##line: %s%%\n", get_next_line(fd));
+// 	// printf("##line: %s%%\n", get_next_line(fd));
+// 	// printf("##line: %s%%\n", get_next_line(fd));
+// 	// printf("##line: %s%%\n", get_next_line(fd));
+// 	// printf("##line: %s%%\n", get_next_line(fd));
+// 	// printf("##line: %s%%\n", get_next_line(fd));
+
+// 	// char readed[100];
+
+// 	// printf("%ld -> %s%%\n\n\n", read(fd, readed, 10), readed);
+// 	// printf("%ld -> %s%%\n\n\n", read(fd, readed, 10), readed);
+// 	// printf("%ld -> %s%%\n\n\n", read(fd, readed, 10), readed);
+// 	// printf("%ld -> %s%%\n\n\n", read(fd, readed, 10), readed);
+// 	// printf("%ld -> %s%%\n\n\n", read(fd, readed, 10), readed);
+
+
+// 	// printf("##line: %s%%\n\n", get_next_line(fd));
+// 	// printf("##line: %s%%\n\n", get_next_line(fd));
+// 	// printf("##line: %s%%\n\n", get_next_line(fd));
+// 	// get_next_line(fd);
+// 	// get_next_line(fd);
+// 	// get_next_line(fd);
+// 	// get_next_line(fd);
+// 	// get_next_line(fd);
+// 	// get_next_line(fd);
+// 	// get_next_line(fd);
+// 	// get_next_line(fd);
+// 	// printf("%s\n", get_next_line(fd));
+// 	// printf("%s\n", get_next_line(fd));
+// 	// printf("%s\n", get_next_line(fd));
+// 	// printf("%s\n", get_next_line(fd));
+// }

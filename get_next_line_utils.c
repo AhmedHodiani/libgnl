@@ -6,27 +6,34 @@
 /*   By: ataher <ataher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 09:06:28 by ataher            #+#    #+#             */
-/*   Updated: 2024/09/16 08:33:20 by ataher           ###   ########.fr       */
+/*   Updated: 2024/09/16 14:22:52 by ataher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char *ft_strdup(const char *s1)
+char *ft_strdup_till_newline(const char *s1)
 {
     size_t len = 0;
-    while (s1[len])
+    while (s1[len] && s1[len] != '\n')
         len++;
+    // if (s1[len] == '\n')
+    //     len++;
 
     char *dup = malloc(sizeof(char) * (len + 1));
     if (!dup)
         return NULL;
 
-    int i = -1;
-    while(s1[++i])
+    int i = 0;
+    while(s1[i] && s1[i] != '\n')
+    {
         dup[i] = s1[i];
+        i++;
+    }
+    // if (s1[i] == '\n')
+    //     dup[i] = '\n';
 
-    dup[i] = '\0';
+    dup[++i] = '\0';
     return dup;
 }
 
@@ -37,7 +44,7 @@ static t_buffer *create_buffer(const char *content)
     if (!new_node) return NULL; // Check for memory allocation failure
 
     // Allocate and copy the content
-    new_node->content = ft_strdup(content);
+    new_node->content = ft_strdup_till_newline(content);
     if (!new_node->content) {
         free(new_node); // Free the node if content allocation fails
         return NULL;
@@ -49,10 +56,8 @@ static t_buffer *create_buffer(const char *content)
     return new_node;
 }
 
-void append_buffer(t_buffer **head, const char *content)
+void    helper_append(t_buffer **head, const char *content)
 {
-    if (content[0] == '\0') return; // Check for empty content
-
     t_buffer *new_node = create_buffer(content);
     if (!new_node) return; // Check for memory allocation failure
 
@@ -69,12 +74,46 @@ void append_buffer(t_buffer **head, const char *content)
     }
 }
 
+size_t append_buffer(t_buffer **head, const char *content)
+{
+    if (content[0] == '\0') return 0; // Check for empty content
+
+    // size_t newline_index;
+    // // printf("add to buffer: %s%%\n", content);
+
+    // if (content[0] != '\n')
+    // {
+    //     helper_append(head, content);
+
+    //     size_t i = 0;
+    //     while(head[0]->content[i])
+    //         i++;
+    //     return i;
+    // }
+
+    // while ((newline_index = ft_strchr(content, '\n')) != BUFFER_SIZE) {
+    //     content += newline_index + 1;
+    //     if (content[0] == '\0') break;
+    //     helper_append(head, content);
+    // }
+    helper_append(head, content);
+
+    size_t i = 0;
+    while(head[0]->content[i])
+        i++;
+    return i;
+
+
+    // return 0;
+    // helper_append(head, content);
+}
+
 
 void print_buffers(const t_buffer *head)
 {
     const t_buffer *current = head;
     while (current != NULL) {
-        printf("%s\n", current->content);
+        printf("--->%s%%\n", current->content);
         current = current->next;
     }
 }
