@@ -6,7 +6,7 @@
 /*   By: ataher <ataher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 09:06:21 by ataher            #+#    #+#             */
-/*   Updated: 2024/09/16 08:06:16 by ataher           ###   ########.fr       */
+/*   Updated: 2024/09/16 08:34:17 by ataher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ char	*get_next_line(int fd)
 		// printf("read_output: %d%% --> temp: %s%%\n", read_output, temp_line);
 		// if (read_output == 0)
 		// {
-		// 	printf("buffers:\n");
-		// 	print_buffers(buffer_list);
+			// printf("buffers:\n");
+			// print_buffers(buffer_list);
 		// 	break;
 		// }
 		append_buffer(&buffer_list, temp_line);
@@ -85,6 +85,7 @@ char	*get_next_line(int fd)
 		if (newline_index != BUFFER_SIZE)
 			break;
 	}
+	print_buffers(buffer_list);
 	return (ft_concat_buffers(buffer_list, line_len));
 }
 
