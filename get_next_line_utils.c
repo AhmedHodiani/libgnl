@@ -6,7 +6,7 @@
 /*   By: ataher <ataher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 09:06:28 by ataher            #+#    #+#             */
-/*   Updated: 2024/09/16 14:22:52 by ataher           ###   ########.fr       */
+/*   Updated: 2024/09/18 11:47:42 by ataher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ char *ft_strdup_till_newline(const char *s1)
     size_t len = 0;
     while (s1[len] && s1[len] != '\n')
         len++;
-    // if (s1[len] == '\n')
-    //     len++;
+    if (s1[len] == '\n')
+        len++;
 
     char *dup = malloc(sizeof(char) * (len + 1));
     if (!dup)
@@ -30,8 +30,8 @@ char *ft_strdup_till_newline(const char *s1)
         dup[i] = s1[i];
         i++;
     }
-    // if (s1[i] == '\n')
-    //     dup[i] = '\n';
+    if (s1[i] == '\n')
+        dup[i] = '\n';
 
     dup[++i] = '\0';
     return dup;
@@ -74,9 +74,9 @@ void    helper_append(t_buffer **head, const char *content)
     }
 }
 
-size_t append_buffer(t_buffer **head, const char *content)
+void append_buffer(t_buffer **head, const char *content)
 {
-    if (content[0] == '\0') return 0; // Check for empty content
+    if (content[0] == '\0') return ; // Check for empty content
 
     // size_t newline_index;
     // // printf("add to buffer: %s%%\n", content);
@@ -97,12 +97,6 @@ size_t append_buffer(t_buffer **head, const char *content)
     //     helper_append(head, content);
     // }
     helper_append(head, content);
-
-    size_t i = 0;
-    while(head[0]->content[i])
-        i++;
-    return i;
-
 
     // return 0;
     // helper_append(head, content);

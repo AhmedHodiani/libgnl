@@ -6,7 +6,7 @@
 /*   By: ataher <ataher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 09:06:26 by ataher            #+#    #+#             */
-/*   Updated: 2024/09/16 15:12:56 by ataher           ###   ########.fr       */
+/*   Updated: 2024/09/18 12:23:10 by ataher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# define BUFFER_SIZE 4
+# define BUFFER_SIZE 10
 
 char	*get_next_line(int fd);
 char	**ft_split(char const *s, char c);
-size_t	ft_strchr(const char *s, char c);
+ssize_t	ft_strchr(const char *s, char c);
 
 typedef struct s_buffer
 {
@@ -29,9 +29,9 @@ typedef struct s_buffer
 	struct s_buffer	*next;
 }	t_buffer;
 
-size_t append_buffer(t_buffer **head, const char *content);
-void print_buffers(const t_buffer *head);
-void free_buffers(t_buffer *head);
+void	append_buffer(t_buffer **head, const char *content);
+void	print_buffers(const t_buffer *head);
+void	free_buffers(t_buffer *head);
 
 
 #endif
