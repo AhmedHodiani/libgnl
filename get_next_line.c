@@ -6,7 +6,7 @@
 /*   By: ataher <ataher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 09:06:21 by ataher            #+#    #+#             */
-/*   Updated: 2024/09/21 10:22:49 by ataher           ###   ########.fr       */
+/*   Updated: 2024/09/26 08:13:43 by ataher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	init(int fd, char *temp_line, t_buffer *buffer_list, ssize_t *read_bytes)
 	int		i;
 
 	*read_bytes = BUFFER_SIZE;
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
 		temp_line[0] = '\0';
 		return (0);
