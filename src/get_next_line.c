@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataher <ataher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ataher <ataher@student.42amman.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 09:06:21 by ataher            #+#    #+#             */
-/*   Updated: 2024/09/26 08:13:43 by ataher           ###   ########.fr       */
+/*   Updated: 2025/01/14 19:06:46 by ataher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../include/libgnl.h"
 
 size_t	len_buffers(t_buffer *buffer_list)
 {
@@ -88,7 +88,7 @@ int	init(int fd, char *temp_line, t_buffer *buffer_list, ssize_t *read_bytes)
 	}
 	else
 	{
-		newline_index = ft_strchr(temp_line, '\n');
+		newline_index = ft_strchr_index(temp_line, '\n');
 		if (newline_index == -1)
 			return (0);
 		i = -1;
@@ -117,7 +117,7 @@ char	*get_next_line(int fd)
 			temp_line[0] = '\0';
 			return (NULL);
 		}
-		if (ft_strchr(temp_line, '\n') != -1 || read_bytes < BUFFER_SIZE)
+		if (ft_strchr_index(temp_line, '\n') != -1 || read_bytes < BUFFER_SIZE)
 			break ;
 		else if (!read_buffer(fd, &read_bytes, temp_line, buffer_list))
 			return (NULL);

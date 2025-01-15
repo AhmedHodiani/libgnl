@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   libgnl.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataher <ataher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ataher <ataher@student.42amman.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 09:06:26 by ataher            #+#    #+#             */
-/*   Updated: 2024/09/21 10:25:09 by ataher           ###   ########.fr       */
+/*   Updated: 2025/01/14 19:05:50 by ataher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef LIBGNL_H
+# define LIBGNL_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 22
@@ -24,7 +24,7 @@
 
 char	*get_next_line(int fd);
 char	**ft_split(char const *s, char c);
-ssize_t	ft_strchr(const char *s, char c);
+ssize_t	ft_strchr_index(const char *s, char c);
 
 typedef struct s_buffer
 {

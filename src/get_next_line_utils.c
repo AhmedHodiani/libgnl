@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataher <ataher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ataher <ataher@student.42amman.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 09:06:28 by ataher            #+#    #+#             */
-/*   Updated: 2024/09/21 10:32:11 by ataher           ###   ########.fr       */
+/*   Updated: 2025/01/14 19:06:46 by ataher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../include/libgnl.h"
 
-ssize_t	ft_strchr(const char *s, char c)
+ssize_t	ft_strchr_index(const char *s, char c)
 {
 	size_t	i;
 
