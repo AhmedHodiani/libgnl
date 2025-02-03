@@ -6,13 +6,13 @@
 /*   By: ataher <ataher@student.42amman.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 09:06:21 by ataher            #+#    #+#             */
-/*   Updated: 2025/01/14 19:06:46 by ataher           ###   ########.fr       */
+/*   Updated: 2025/02/03 13:32:45 by ataher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libgnl.h"
 
-size_t	len_buffers(t_buffer *buffer_list)
+static size_t	len_buffers(t_buffer *buffer_list)
 {
 	size_t	line_len;
 	int		i;
@@ -29,7 +29,7 @@ size_t	len_buffers(t_buffer *buffer_list)
 	return (line_len);
 }
 
-char	*ft_concat_buffers(t_buffer *buffer_list)
+static char	*ft_concat_buffers(t_buffer *buffer_list)
 {
 	char		*line;
 	t_buffer	*temp;
@@ -57,7 +57,7 @@ char	*ft_concat_buffers(t_buffer *buffer_list)
 	return (line);
 }
 
-char	*read_buffer(int fd, ssize_t *read_bytes,
+static char	*read_buffer(int fd, ssize_t *read_bytes,
 	char *temp_line, t_buffer *buffer_list)
 {
 	*read_bytes = read(fd, temp_line, BUFFER_SIZE);
@@ -70,7 +70,7 @@ char	*read_buffer(int fd, ssize_t *read_bytes,
 	return ("");
 }
 
-int	init(int fd, char *temp_line, t_buffer *buffer_list, ssize_t *read_bytes)
+static int	init(int fd, char *temp_line, t_buffer *buffer_list, ssize_t *read_bytes)
 {
 	ssize_t	newline_index;
 	int		i;
